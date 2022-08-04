@@ -59,4 +59,8 @@ public class Drone {
     @OneToMany(mappedBy = "drone", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Medication> medications = new ArrayList<>();
 
+    public Integer getTotalMedicationsWeight(Integer selfWeight) {
+        return medications.stream().filter(m -> m.getWeight() > 0).mapToInt(Medication::getWeight).sum() - selfWeight;
+    }
+
 }

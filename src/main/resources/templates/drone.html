@@ -10,7 +10,7 @@
 </head>
 <body class="container mt-3">
 <h1>View Drone</h1>
-<a th:href="@{/home}">Back to Drone List</a>
+<a class="btn btn-outline-primary" th:href="@{/home}">Back to Drone List</a>
 <br/><br/>
 <div th:if="${drone}">
     <table class="table table-hover" border="0">
@@ -45,9 +45,9 @@
             <td th:utext="${drone.state}">...</td>
         </tr>
     </table>
-    <br/><br/>
+    <br/><br/><br/>
     <a class="btn btn-outline-secondary" th:href="@{/medications/add(droneId=${drone.id})}">Add Medication</a>
-    <br>
+    <br/><br/>
     <div th:if="not ${allowDelete}">
         <a class="btn btn-outline-primary" th:href="@{/drones/{droneId}/edit(droneId=${drone.id})}">Edit</a>
         <a class="btn btn-outline-danger" th:href="@{/drones/{droneId}/delete(droneId=${drone.id})}">Delete</a>
@@ -55,6 +55,55 @@
     <form th:if="${allowDelete}" th:action="@{/drones/{droneId}/delete(droneId=${drone.id})}" method="POST">
         Delete this Drone? <input class="btn btn-danger" type="submit" th:value="Yes"/>
     </form>
+
+    <br/><br/>
+    <div th:if="not ${drone.getMedications().isEmpty()}" class="container px-4">
+        <hr/>
+        <br/>
+        <h2>Medications</h2>
+        <br/><br/>
+        <div class="row gx-5">
+            <div th:each="medication: ${drone.getMedications()}" class="col-md-4" style="margin-bottom:20px;">
+                <div class="card">
+                    <img class="card-img-top" th:src="${medication.getBase64Image()}" style="width:100%">
+                    <div class="card-body">
+                        <h4 class="card-title" th:utext="${medication.getName()}">...</h4>
+                        <p class="card-text"><span th:utext="${medication.getWeight()}">...</span> gms | <span
+                                th:utext="${medication.getCode()}">...</span></p>
+                    </div>
+                    <div class="card-footer">
+                        <a class="btn btn-outline-primary" th:href="@{/medications/edit(medicationId=${medication.getId()})}">Edit</a>
+                        <a class="btn btn-outline-danger" data-bs-toggle="modal" th:data-bs-target="'#medicationModal'+${medication.getId()}">Delete</a>
+
+                        <!-- Medication modal for deletion -->
+                        <div class="modal fade" th:id="'medicationModal'+${medication.getId()}">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+
+                                    <!-- Modal Header -->
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Delete medication [<span th:utext="${medication.getName()}">...</span>] ?</h4>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                    </div>
+
+                                    <!-- Modal footer -->
+                                    <div class="modal-footer">
+                                        <form th:action="@{/medications/delete(medicationId=${medication.getId()}, droneId=${drone.id})}" method="POST">
+                                            <input class="btn btn-danger" type="submit" th:value="Delete"/>
+                                        </form>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br/><br/>
+    </div>
+
 </div>
 <div th:if="${errorMessage}" th:utext="${errorMessage}" class="alert alert-danger"/>
 </body>

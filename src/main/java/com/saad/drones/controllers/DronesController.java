@@ -80,10 +80,10 @@ public class DronesController {
                                 @PathVariable String droneId,
                                 @ModelAttribute("drone") Drone drone) {
         try {
+            drone.setId(droneId);
             if (drone.getBatteryCapacity() < 25 && drone.getState() == State.LOADING) {
                 throw new RuntimeException("Drone can't be in LOADING state while battery capacity below 25%");
             }
-            drone.setId(droneId);
             service.update(drone);
             return "redirect:/drones/" + String.valueOf(drone.getId());
         } catch (Exception ex) {
@@ -92,6 +92,7 @@ public class DronesController {
             model.addAttribute("errorMessage", errorMessage);
 
             model.addAttribute("drone", drone);
+            model.addAttribute("droneId", drone.getId());
             model.addAttribute("add", false);
             return "drone-edit";
         }

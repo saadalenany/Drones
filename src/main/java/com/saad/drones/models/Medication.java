@@ -3,6 +3,7 @@ package com.saad.drones.models;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -48,4 +49,12 @@ public class Medication {
     @JoinColumn(name = "drone_id")
     private Drone drone;
 
+    public String getBase64Image() {
+        if (this.image != null) {
+            byte[] imgBytesAsBase64 = Base64.encodeBase64(this.image);
+            String imgDataAsBase64 = new String(imgBytesAsBase64);
+            return "data:image/jpg;base64," + imgDataAsBase64;
+        }
+        return null;
+    }
 }

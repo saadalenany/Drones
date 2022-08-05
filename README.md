@@ -33,4 +33,4 @@ Navigate to the root of the project via command line and execute the following c
 ```
 mvn spring-boot:run
 ```
-The CLI will run your application on the configured port in the application.properties file.
+The CLI will run the application on the configured port in the application.properties file.

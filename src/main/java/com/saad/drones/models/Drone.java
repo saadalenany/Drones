@@ -63,4 +63,7 @@ public class Drone {
         return medications.stream().filter(m -> m.getWeight() > 0).mapToInt(Medication::getWeight).sum() - selfWeight;
     }
 
+    public String reportDroneBattery(){
+        return String.format("Drone [%s] is at %s%%", serialNumber, batteryCapacity);
+    }
 }

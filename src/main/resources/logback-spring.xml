@@ -1,0 +1,26 @@
+<configuration>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy/MM/dd HH:mm:ss.SSS} [%thread] %-5level %logger\(%line\) - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="ROTATE_FILE_DAILY" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>./data/logs/app.drones.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>200MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%d{yyyy/MM/dd HH:mm:ss.SSS} [%thread] %-5level %logger\(%line\) - %msg%n</pattern>
+        </layout>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="ROTATE_FILE_DAILY"/>
+    </root>
+</configuration>

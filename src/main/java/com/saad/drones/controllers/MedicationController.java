@@ -4,8 +4,6 @@ import com.saad.drones.models.Drone;
 import com.saad.drones.models.Medication;
 import com.saad.drones.services.DroneService;
 import com.saad.drones.services.MedicationService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,8 +15,6 @@ import java.io.IOException;
 @Controller
 @RequestMapping("/medications")
 public class MedicationController {
-
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     MedicationService medicationService;
@@ -53,7 +49,6 @@ public class MedicationController {
             return "redirect:/drones/" + String.valueOf(droneId);
         } catch (RuntimeException | IOException ex) {
             String errorMessage = ex.getMessage();
-            logger.error(errorMessage);
             model.addAttribute("errorMessage", errorMessage);
 
             model.addAttribute("add", true);
@@ -103,7 +98,6 @@ public class MedicationController {
             return "redirect:/drones/" + String.valueOf(droneId);
         } catch (RuntimeException | IOException ex) {
             String errorMessage = ex.getMessage();
-            logger.error(errorMessage);
             model.addAttribute("errorMessage", errorMessage);
             drone = droneService.get(droneId);
             model.addAttribute("drone", drone);
@@ -120,7 +114,6 @@ public class MedicationController {
             return "redirect:/drones/" + String.valueOf(droneId);
         } catch (RuntimeException ex) {
             String errorMessage = ex.getMessage();
-            logger.error(errorMessage);
             model.addAttribute("errorMessage", errorMessage);
             model.addAttribute("drone", droneService.get(droneId));
             return "drone";

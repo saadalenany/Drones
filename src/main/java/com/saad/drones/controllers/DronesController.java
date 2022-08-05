@@ -3,8 +3,6 @@ package com.saad.drones.controllers;
 import com.saad.drones.models.Drone;
 import com.saad.drones.models.enums.State;
 import com.saad.drones.services.DroneService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,8 +11,6 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/drones")
 public class DronesController {
-
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private DroneService service;
@@ -52,7 +48,6 @@ public class DronesController {
             return "redirect:/drones/" + String.valueOf(newDrone.getId());
         } catch (Exception ex) {
             String errorMessage = ex.getMessage();
-            logger.error(errorMessage);
             model.addAttribute("errorMessage", errorMessage);
 
             model.addAttribute("drone", drone);
@@ -88,7 +83,6 @@ public class DronesController {
             return "redirect:/drones/" + String.valueOf(drone.getId());
         } catch (Exception ex) {
             String errorMessage = ex.getMessage();
-            logger.error(errorMessage);
             model.addAttribute("errorMessage", errorMessage);
 
             model.addAttribute("drone", drone);
@@ -118,10 +112,9 @@ public class DronesController {
             Model model, @PathVariable String droneId) {
         try {
             service.delete(droneId);
-            return "redirect:/drones";
+            return "redirect:/home";
         } catch (RuntimeException ex) {
             String errorMessage = ex.getMessage();
-            logger.error(errorMessage);
             model.addAttribute("errorMessage", errorMessage);
             return "drone";
         }
